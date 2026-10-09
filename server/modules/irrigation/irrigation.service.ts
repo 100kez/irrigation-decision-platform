@@ -215,16 +215,17 @@ export class IrrigationService {
           soilTemperature: String(fieldData.soilTemperature),
           airTemperature: String(fieldData.airTemperature),
           airHumidity: String(fieldData.airHumidity),
-          weatherData: JSON.stringify(weatherData),
-          waterStorageDaily: JSON.stringify(decision.waterStorageDaily),
+          // jsonb 列直接传对象/数组,避免 JSON.stringify 后被存成 JSON 字符串(双编码)
+          weatherData,
+          waterStorageDaily: decision.waterStorageDaily,
           waterRiskLevel: decision.waterRiskLevel,
           stressForecastDate: decision.stressForecastDate ?? null,
-          irrigationPlan: JSON.stringify(decision.irrigationPlan),
-          aiDiagnosticCriteria: JSON.stringify(aiCriteria ?? []),
+          irrigationPlan: decision.irrigationPlan,
+          aiDiagnosticCriteria: aiCriteria ?? [],
           aiDiagnosticSummary: aiSummary ?? null,
-          aiChatMessages: JSON.stringify(aiMessages ?? []),
+          aiChatMessages: aiMessages ?? [],
           status: 'pending',
-          executionRecords: '[]',
+          executionRecords: [],
           aiModel: this.aiDiagnosticService.getModelConfig().model,
         })
         .returning({
@@ -745,7 +746,7 @@ export class IrrigationService {
       .update(irrigationDecision)
       .set({
         status: 'executed',
-        executionRecords: JSON.stringify([...existing, record]),
+        executionRecords: [...existing, record],
       })
       .where(eq(irrigationDecision.id, id));
 
@@ -773,7 +774,7 @@ export class IrrigationService {
 
     await this.db
       .update(irrigationDecision)
-      .set({ adjustedPlan: JSON.stringify(events) })
+      .set({ adjustedPlan: events })
       .where(eq(irrigationDecision.id, id));
 
     return this.getDecision(id);
@@ -816,7 +817,7 @@ export class IrrigationService {
       latestByFarm.set(row.farmId, row);
     }
 
-    // 3) 待处理方案(status ∈ pending/adopted,取最近 20 条再按风险/计划过滤)
+    // 3) 待处理方案(status ∈ pending/adopted,取最近 20 条,全部展示与计数口径一致)
     const pendingRows = await this.db
       .select({
         id: irrigationDecision.id,
@@ -842,11 +843,6 @@ export class IrrigationService {
       const plan = this.parseJson<IrrigationEvent[]>(
         row.adjustedPlan ?? row.irrigationPlan,
       ) ?? [];
-      const needsAttention =
-        row.waterRiskLevel === 'drought' ||
-        row.waterRiskLevel === 'stress' ||
-        plan.length > 0;
-      if (!needsAttention) continue;
       const suggestedMm = round2(
         plan.reduce((sum: number, e: IrrigationEvent) => sum + e.amountMm, 0),
       );

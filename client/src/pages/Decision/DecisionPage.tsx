@@ -264,8 +264,11 @@ const DecisionPage = () => {
       toast.success('灌溉决策已生成');
     } catch (err2: unknown) {
       logger.error('生成灌溉决策失败', err2);
-      const msg =
-        (err2 as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      // 框架错误信封为 data.error.message
+      const errData = (
+        err2 as { response?: { data?: { error?: { message?: string }; message?: string } } }
+      )?.response?.data;
+      const msg = errData?.error?.message ?? errData?.message;
       setError(msg || '生成决策失败,请重试');
       toast.error(msg || '生成决策失败,请重试');
     } finally {

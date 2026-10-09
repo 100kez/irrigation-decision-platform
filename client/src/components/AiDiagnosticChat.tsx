@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { logger } from '@lark-apaas/client-toolkit/logger';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -47,22 +48,57 @@ const AiDiagnosticChat: React.FC = () => {
     }
   }, [isOpen, messages.length]);
 
+  // 部分浏览器/文件管理器上报的 file.type 为空串,按扩展名兜底判断
+  const IMAGE_EXTENSIONS = /\.(jpe?g|png|gif|webp|bmp)$/i;
+  const isImageFile = (file: File): boolean =>
+    file.type.startsWith('image/') || IMAGE_EXTENSIONS.test(file.name);
+
+  /** 压缩到最长边 1280px 的 JPEG,避免大图 base64 超出请求体限制 */
+  const compressImage = (dataUrl: string): Promise<string> =>
+    new Promise((resolve) => {
+      const img = new window.Image();
+      img.onload = () => {
+        try {
+          const maxSide = 1280;
+          const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(dataUrl);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', 0.85));
+        } catch {
+          resolve(dataUrl); // 无法解码(如 HEIC)时退回原图
+        }
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    if (!file.type.startsWith('image/')) {
+    if (!isImageFile(file)) {
+      toast.error('仅支持上传图片文件(jpg/png/gif/webp 等)');
+      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (event: ProgressEvent<FileReader>) => {
       const result = event.target?.result as string;
-      if (result) {
-        setPendingImages((prev: string[]) => [...prev, result]);
-      }
+      if (!result) return;
+      void compressImage(result).then((compressed: string) => {
+        setPendingImages((prev: string[]) => [...prev, compressed]);
+      });
     };
+    reader.onerror = () => toast.error('图片读取失败,请重试');
     reader.readAsDataURL(file);
 
     if (fileInputRef.current) {
@@ -113,9 +149,18 @@ const AiDiagnosticChat: React.FC = () => {
       }
     } catch (err: unknown) {
       logger.error('AI 对话失败', err);
+      // 展示服务端真实错误信息(框架错误信封为 data.error.message)
+      const errData = (
+        err as {
+          response?: { data?: { error?: { message?: string }; message?: string } };
+        }
+      )?.response?.data;
+      const serverMsg = errData?.error?.message ?? errData?.message;
       const errorMsg: AiChatMessage = {
         role: 'assistant',
-        content: '抱歉，诊断服务暂时不可用，请稍后再试。',
+        content: serverMsg
+          ? `诊断失败:${serverMsg}`
+          : '抱歉，诊断服务暂时不可用，请稍后再试。',
       };
       setMessages((prev: AiChatMessage[]) => [...prev, errorMsg]);
     } finally {

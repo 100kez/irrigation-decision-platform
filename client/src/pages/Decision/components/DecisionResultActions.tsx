@@ -23,10 +23,13 @@ export function DecisionResultActions({ decision }: DecisionResultActionsProps) 
   const totalM3 = plan.reduce((s: number, e: IrrigationEvent) => s + e.amountM3, 0);
   const riskMeta = WATER_RISK_META[decision.waterRiskLevel];
 
+  // 方案可能为空(未来 7 天无胁迫),此时不计算时间窗口,避免访问 undefined
   const timeWindow =
     plan.length > 1
-      ? `${formatDate(firstEvent.date)} ~ ${formatDate(plan[plan.length - 1].date)}`
-      : formatDate(firstEvent.date);
+      ? `${formatDate(plan[0].date)} ~ ${formatDate(plan[plan.length - 1].date)}`
+      : plan.length === 1
+        ? formatDate(plan[0].date)
+        : '';
 
   return (
     <Card>

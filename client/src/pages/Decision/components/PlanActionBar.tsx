@@ -81,8 +81,11 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
         target === 'adopted' ? '已采纳建议，方案进入执行准备' : '已标记暂不执行',
       );
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      // 框架错误信封为 data.error.message
+      const errData = (
+        err as { response?: { data?: { error?: { message?: string }; message?: string } } }
+      )?.response?.data;
+      const msg = errData?.error?.message ?? errData?.message;
       toast.error(`操作失败:${msg || '请重试'}`);
     } finally {
       setBusy(null);
@@ -110,8 +113,11 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
       setPlanOpen(false);
       toast.success('调整后的方案已保存');
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      // 框架错误信封为 data.error.message
+      const errData = (
+        err as { response?: { data?: { error?: { message?: string }; message?: string } } }
+      )?.response?.data;
+      const msg = errData?.error?.message ?? errData?.message;
       toast.error(`保存失败:${msg || '请重试'}`);
     } finally {
       setPlanSaving(false);
@@ -145,8 +151,11 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
       setExecOpen(false);
       toast.success('执行记录已保存');
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      // 框架错误信封为 data.error.message
+      const errData = (
+        err as { response?: { data?: { error?: { message?: string }; message?: string } } }
+      )?.response?.data;
+      const msg = errData?.error?.message ?? errData?.message;
       toast.error(`记录失败:${msg || '请重试'}`);
     } finally {
       setExecSaving(false);
