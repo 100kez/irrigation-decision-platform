@@ -6,6 +6,7 @@
 @config "../../tailwind.config.ts";
 
 /* 自托管部署：隐藏右下角“妙搭生成”悬浮徽标（妙搭框架的自定义钩子 data-custom-element） */
-[data-custom-element$="-watermark"] {
+/* 注意：手机端是独立的 MobileWatermark 组件，属性为 -watermark-mobile，需一并匹配 */
+[data-custom-element*="-watermark"] {
   display: none !important;
 }
