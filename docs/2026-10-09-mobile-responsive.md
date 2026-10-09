@@ -25,12 +25,18 @@ systemctl restart irrigation
 ```
 
 ## 待真机验证清单
-
 1. 手机(320~430px):顶部标题栏出现、左侧栏消失;汉堡抽屉正常开关、点导航收起
 2. 桌面(≥768px):与改版前完全一致
 3. 各页无横向滚动(scrollWidth ≤ innerWidth)
 4. AI 面板近全屏、气泡不溢出;iPhone 刘海下标题栏/AI 面板避让安全区
 5. 农田表单单列、决策调整计划卡片式行、历史筛选 2 列 + 列表 2 列
+6. 右下角无「妙搭生成」徽标(手机端已修复,见下)
+
+## 追加修复:「妙搭生成」徽标在手机上仍显示
+
+- 原因:框架手机端是独立的 `MobileWatermark` 组件,`data-custom-element` 为 `miaoda-watermark-mobile`,不匹配 index.css 原有 `$="-watermark"` 后缀选择器(只隐藏了桌面端 `miaoda-watermark`)
+- 修复:`index.css` 选择器改为 `[data-custom-element*="-watermark"]` 包含匹配,同时覆盖两种徽标(框架内仅这两个值,无误伤)
+- 验证:新 CSS `index-C-fBHdhW.css` 已上线,手机强刷后生效
 
 ## 备忘
 
