@@ -247,11 +247,11 @@ const HistoryPage = () => {
 
       {/* 筛选区 */}
       <Card className="border-green-100 bg-green-50/30">
-        <CardContent className="flex flex-wrap items-end gap-4 p-4">
+        <CardContent className="grid grid-cols-2 gap-x-4 gap-y-3 p-4 sm:flex sm:flex-wrap sm:items-end sm:gap-4">
           <div className="flex flex-col gap-1.5">
             <Label className="text-xs">农田筛选</Label>
             <Select value={farmId} onValueChange={setFarmId}>
-              <SelectTrigger className="w-[160px] bg-white">
+              <SelectTrigger className="w-full bg-white sm:w-[160px]">
                 <SelectValue placeholder="选择农田" />
               </SelectTrigger>
               <SelectContent>
@@ -274,7 +274,7 @@ const HistoryPage = () => {
           <div className="flex flex-col gap-1.5">
             <Label className="text-xs">方案状态</Label>
             <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger className="w-[140px] bg-white">
+              <SelectTrigger className="w-full bg-white sm:w-[140px]">
                 <SelectValue placeholder="全部状态" />
               </SelectTrigger>
               <SelectContent>
@@ -292,7 +292,7 @@ const HistoryPage = () => {
             <Label className="text-xs">开始日期</Label>
             <Input
               type="date"
-              className="w-[150px] bg-white"
+              className="w-full bg-white sm:w-[150px]"
               value={dateFrom}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setDateFrom(e.target.value)
@@ -304,7 +304,7 @@ const HistoryPage = () => {
             <Label className="text-xs">结束日期</Label>
             <Input
               type="date"
-              className="w-[150px] bg-white"
+              className="w-full bg-white sm:w-[150px]"
               value={dateTo}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setDateTo(e.target.value)
@@ -318,7 +318,7 @@ const HistoryPage = () => {
               value={sortOrder}
               onValueChange={(v: string) => setSortOrder(v as 'desc' | 'asc')}
             >
-              <SelectTrigger className="w-[140px] bg-white">
+              <SelectTrigger className="w-full bg-white sm:w-[140px]">
                 <SelectValue placeholder="排序方式" />
               </SelectTrigger>
               <SelectContent>
@@ -328,7 +328,7 @@ const HistoryPage = () => {
             </Select>
           </div>
 
-          <div className="ml-auto text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground sm:ml-auto">
             共 <span className="font-semibold text-foreground">{total}</span> 条记录
           </div>
         </CardContent>
@@ -368,8 +368,8 @@ const HistoryPage = () => {
                   record.status === 'superseded' ? 'opacity-75' : ''
                 }`}
               >
-                <CardContent className="flex flex-wrap items-center gap-4 p-4">
-                  <div className="flex w-36 flex-col">
+                <CardContent className="grid grid-cols-2 gap-x-4 gap-y-3 p-4 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+                  <div className="flex flex-col sm:w-36">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5" />
                       生成时间
@@ -379,7 +379,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex w-36 flex-col">
+                  <div className="flex flex-col sm:w-36">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <MapPin className="h-3.5 w-3.5" />
                       农田
@@ -389,7 +389,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex w-28 flex-col">
+                  <div className="flex flex-col sm:w-28">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <AlertTriangle className="h-3.5 w-3.5" />
                       风险等级
@@ -401,7 +401,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex w-28 flex-col">
+                  <div className="flex flex-col sm:w-28">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Droplets className="h-3.5 w-3.5" />
                       方案状态
@@ -413,7 +413,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex w-32 flex-col">
+                  <div className="flex flex-col sm:w-32">
                     <div className="text-xs text-muted-foreground">
                       计划灌溉 {effectivePlan(record).length} 次
                     </div>
@@ -422,7 +422,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex w-32 flex-col">
+                  <div className="flex flex-col sm:w-32">
                     <div className="text-xs text-muted-foreground">
                       实际执行 {exec.count} 次
                     </div>
@@ -435,7 +435,7 @@ const HistoryPage = () => {
                     </div>
                   </div>
 
-                  <div className="ml-auto flex items-center gap-2">
+                  <div className="col-span-2 flex items-center justify-between gap-2 sm:col-span-1 sm:ml-auto sm:justify-start">
                     {isLatestValid && (
                       <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
                         <CheckCircle2 className="mr-1 h-3 w-3" />
@@ -513,7 +513,7 @@ const HistoryPage = () => {
                 <h4 className="mb-2 text-sm font-semibold text-foreground">
                   基本信息
                 </h4>
-                <div className="grid grid-cols-2 gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm">
+                <div className="grid grid-cols-1 gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm sm:grid-cols-2">
                   <div>
                     <span className="text-muted-foreground">农田名称:</span>
                     <span className="font-medium">{detail.farmName}</span>
@@ -522,7 +522,7 @@ const HistoryPage = () => {
                     <span className="text-muted-foreground">生成时间:</span>
                     <span className="font-medium">{formatDateTime(detail.createdAt)}</span>
                   </div>
-                  <div className="col-span-2 flex items-center gap-2">
+                  <div className="flex items-center gap-2 sm:col-span-2">
                     <span className="text-muted-foreground">方案状态:</span>
                     <Badge variant="outline" className={statusBadgeClass(detail.status)}>
                       {DECISION_STATUS_META[detail.status].label}
@@ -590,7 +590,7 @@ const HistoryPage = () => {
                       获取时间:{formatDateTime(detail.createdAt)}(天气快照随决策生成)
                     </span>
                   </h4>
-                  <div className="grid grid-cols-3 gap-3 rounded-lg border border-blue-100 bg-blue-50/50 p-3 text-sm">
+                  <div className="grid grid-cols-1 gap-3 rounded-lg border border-blue-100 bg-blue-50/50 p-3 text-sm sm:grid-cols-3">
                     <div className="flex flex-col gap-0.5">
                       <span className="text-xs text-muted-foreground">最高气温</span>
                       <span className="font-semibold text-foreground">
@@ -751,24 +751,24 @@ const HistoryPage = () => {
                     {effectivePlan(detail).map((evt: IrrigationEvent, idx: number) => (
                       <div
                         key={idx}
-                        className="flex flex-wrap items-center gap-4 rounded-lg border border-green-100 bg-green-50/40 p-3"
+                        className="grid grid-cols-[2.5rem_1fr] gap-x-3 gap-y-1.5 rounded-lg border border-green-100 bg-green-50/40 p-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4"
                       >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
+                        <div className="row-span-2 flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
                           {idx + 1}
                         </div>
-                        <div className="flex-1 min-w-[160px]">
+                        <div className="sm:flex-1 sm:min-w-[160px]">
                           <div className="text-xs text-muted-foreground">灌溉日期</div>
                           <div className="text-sm font-medium text-foreground">
                             {evt.date}
                           </div>
                         </div>
-                        <div className="flex-1 min-w-[120px]">
+                        <div className="sm:flex-1 sm:min-w-[120px]">
                           <div className="text-xs text-muted-foreground">灌溉量</div>
                           <div className="text-sm font-medium text-green-700">
                             {evt.amountMm.toFixed(1)} mm / {evt.amountM3.toFixed(1)} m³
                           </div>
                         </div>
-                        <div className="flex-[2] min-w-[200px]">
+                        <div className="col-span-2 sm:flex-[2] sm:min-w-[200px]">
                           <div className="text-xs text-muted-foreground">原因</div>
                           <div className="text-sm text-foreground">{evt.reason}</div>
                         </div>
@@ -795,25 +795,25 @@ const HistoryPage = () => {
                     {(detail.executionRecords ?? []).map((r: ExecutionRecord, idx: number) => (
                       <div
                         key={idx}
-                        className="flex flex-wrap items-center gap-4 rounded-lg border border-green-200 bg-green-50 p-3"
+                        className="grid grid-cols-[2.5rem_1fr] gap-x-3 gap-y-1.5 rounded-lg border border-green-200 bg-green-50 p-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4"
                       >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
+                        <div className="row-span-2 flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
                           {idx + 1}
                         </div>
-                        <div className="flex-1 min-w-[160px]">
+                        <div className="sm:flex-1 sm:min-w-[160px]">
                           <div className="text-xs text-muted-foreground">执行时间</div>
                           <div className="text-sm font-medium text-foreground">
                             {formatDateTime(r.executedAt)}
                           </div>
                         </div>
-                        <div className="flex-1 min-w-[120px]">
+                        <div className="sm:flex-1 sm:min-w-[120px]">
                           <div className="text-xs text-muted-foreground">实际水量</div>
                           <div className="text-sm font-medium text-green-700">
                             {r.amountMm.toFixed(1)} mm / {r.amountM3.toFixed(1)} m³
                           </div>
                         </div>
                         {r.note && (
-                          <div className="flex-[2] min-w-[160px]">
+                          <div className="col-span-2 sm:flex-[2] sm:min-w-[160px]">
                             <div className="text-xs text-muted-foreground">备注</div>
                             <div className="text-sm text-foreground">{r.note}</div>
                           </div>

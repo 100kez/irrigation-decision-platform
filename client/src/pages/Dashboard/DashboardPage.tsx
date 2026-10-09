@@ -141,7 +141,7 @@ const DashboardPage = () => {
           <h1 className="text-2xl font-bold text-foreground">欢迎使用智灌云</h1>
           <p className="text-sm text-muted-foreground">{TECH_ROUTE_TEXT}</p>
         </div>
-        <div className="w-36">
+        <div className="w-full sm:w-36">
           <Select value={range} onValueChange={(v: string) => setRange(v as RangeKey)}>
             <SelectTrigger>
               <SelectValue />
@@ -287,7 +287,7 @@ const DashboardPage = () => {
                       </Badge>
                     </span>
                   </div>
-                  <div className="mt-2 grid grid-cols-3 gap-2 text-xs">
+                  <div className="mt-2 grid grid-cols-1 gap-2 text-xs sm:grid-cols-3">
                     <div>
                       <div className="text-muted-foreground">当前水分</div>
                       <div className="font-medium text-foreground">

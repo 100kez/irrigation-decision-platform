@@ -86,7 +86,7 @@ export function StorageChartCard({ decision, farm }: StorageChartCardProps) {
         <ChartContainer config={chartConfig} className="h-64 w-full">
           <ComposedChart data={data} margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="label" tickLine={false} axisLine={false} tickMargin={8} />
+            <XAxis dataKey="label" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 11 }} />
             <YAxis
               width={36}
               domain={['auto', 'auto']}
@@ -117,7 +117,7 @@ export function StorageChartCard({ decision, farm }: StorageChartCardProps) {
                   y={farm.stressThreshold}
                   stroke="hsl(24 95% 53%)"
                   strokeDasharray="4 4"
-                  label={{ value: `胁迫阈值 ${farm.stressThreshold}%`, position: 'insideBottomRight', fontSize: 11 }}
+                  label={{ value: `胁迫阈值 ${farm.stressThreshold}%`, position: 'insideBottomLeft', fontSize: 11 }}
                 />
                 <ReferenceLine
                   y={farm.wiltingPoint}

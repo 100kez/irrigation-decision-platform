@@ -320,7 +320,7 @@ const FarmsPage = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="搜索农田名称"
@@ -328,7 +328,7 @@ const FarmsPage = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
               }
-              className="w-44 pl-8"
+              className="w-full pl-8 sm:w-44"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -356,12 +356,7 @@ const FarmsPage = () => {
 
       {/* Body */}
       {loading ? (
-        <div
-          className="grid gap-6"
-          style={{
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-          }}
-        >
+        <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))]">
           {[0, 1, 2, 3].map((i: number) => (
             <Card key={i}>
               <CardHeader>
@@ -437,10 +432,7 @@ const FarmsPage = () => {
       ) : (
         <div
           data-ai-section-type="card-list"
-          className="grid gap-6"
-          style={{
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-          }}
+          className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(min(100%,340px),1fr))]"
         >
           {filteredFarms.map((farm: FarmWithLatest) => {
             const moisture = getMoistureStatus(
@@ -502,12 +494,12 @@ const FarmsPage = () => {
                       {farm.latestDecision ? '已接入' : '未接入'}
                     </Badge>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="grid grid-cols-1 gap-y-2 text-sm sm:grid-cols-2 sm:gap-3">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Ruler className="h-4 w-4" />
                       面积
                     </div>
-                    <div className="text-right font-medium">
+                    <div className="font-medium sm:text-right">
                       {farm.area.toFixed(0)} m²
                       <span className="ml-1 text-xs text-muted-foreground">
                         ({areaInMu(farm.area)} 亩)
@@ -517,7 +509,7 @@ const FarmsPage = () => {
                       <Activity className="h-4 w-4" />
                       最新数据时间
                     </div>
-                    <div className="text-right font-medium">
+                    <div className="font-medium sm:text-right">
                       {farm.latestDecision
                         ? formatDateTime(farm.latestDecision.createdAt).slice(5, 16)
                         : '暂无数据'}
@@ -597,8 +589,8 @@ const FarmsPage = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid grid-cols-2 gap-4 py-2">
-            <div className="col-span-2 space-y-1.5">
+          <div className="grid grid-cols-1 gap-4 py-2 sm:grid-cols-2">
+            <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="farm-name">
                 农田名称 <span className="text-destructive">*</span>
               </Label>
@@ -814,7 +806,7 @@ const FarmsPage = () => {
             </div>
           ) : monitorRecord ? (
             <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
                 <div className="rounded-lg bg-emerald-50 p-3">
                   <div className="text-xs text-emerald-700">土壤含水率</div>
                   <div className="mt-1 font-semibold text-emerald-900">

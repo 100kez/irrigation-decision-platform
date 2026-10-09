@@ -179,7 +179,7 @@ const AiDiagnosticChat: React.FC = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 transition-all hover:bg-emerald-700 hover:shadow-xl hover:scale-105"
+        className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 transition-all hover:bg-emerald-700 hover:shadow-xl hover:scale-105"
         aria-label="打开 AI 诊断助手"
       >
         <MessageCircle className="h-6 w-6" />
@@ -188,7 +188,7 @@ const AiDiagnosticChat: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex h-[560px] w-[380px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-emerald-100">
+    <div className="fixed bottom-6 right-6 z-50 flex h-[560px] w-[380px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-emerald-100 max-sm:inset-x-2 max-sm:top-[calc(env(safe-area-inset-top)+4rem)] max-sm:bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] max-sm:h-auto max-sm:w-auto">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-emerald-100 bg-gradient-to-r from-emerald-600 to-emerald-500 px-4 py-3 text-white">
         <div className="flex items-center gap-2">
@@ -236,7 +236,7 @@ const AiDiagnosticChat: React.FC = () => {
               )}
             </div>
             <div
-              className={`max-w-[260px] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === 'user' ? 'bg-emerald-600 text-white rounded-tr-sm' : 'bg-gray-100 text-foreground rounded-tl-sm'}`}
+              className={`max-w-[260px] max-sm:max-w-[72%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === 'user' ? 'bg-emerald-600 text-white rounded-tr-sm' : 'bg-gray-100 text-foreground rounded-tl-sm'}`}
             >
               {msg.imageUrls && msg.imageUrls.length > 0 && (
                 <div className="mb-2 flex flex-wrap gap-1">

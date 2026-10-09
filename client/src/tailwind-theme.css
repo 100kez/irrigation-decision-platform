@@ -254,4 +254,10 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* 手机刘海屏安全区:max() 保证非刘海机与常规 padding 一致 */
+  .pt-safe { padding-top: max(env(safe-area-inset-top), 1rem); }
+  .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 1rem); }
+  .pl-safe { padding-left: max(env(safe-area-inset-left), 0px); }
+  .pr-safe { padding-right: max(env(safe-area-inset-right), 0px); }
 }

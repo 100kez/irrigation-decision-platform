@@ -273,7 +273,7 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
             </DialogHeader>
             <div className="space-y-3">
               {editable.map((e: EditableEvent, idx: number) => (
-                <div key={idx} className="grid grid-cols-[1fr_90px_90px_1fr_36px] items-center gap-2">
+                <div key={idx} className="grid grid-cols-2 items-center gap-2 rounded-lg border border-gray-200 bg-gray-50/50 p-2.5 sm:grid-cols-[1fr_90px_90px_1fr_36px] sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0">
                   <Input
                     type="date"
                     value={e.date}
@@ -313,6 +313,7 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
                   />
                   <Input
                     placeholder="原因"
+                    className="col-span-2 sm:col-span-1"
                     value={e.reason}
                     onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                       setEditable((prev) =>
@@ -325,7 +326,7 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-destructive"
+                    className="h-8 w-8 text-destructive max-sm:order-first max-sm:col-start-2 max-sm:row-start-1 max-sm:justify-self-end"
                     onClick={() =>
                       setEditable((prev) => prev.filter((_, i: number) => i !== idx))
                     }
@@ -386,7 +387,7 @@ export function PlanActionBar({ decision, onUpdated }: PlanActionBarProps) {
                   }
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="exec-mm">
                     执行水量 (mm) <span className="text-destructive">*</span>

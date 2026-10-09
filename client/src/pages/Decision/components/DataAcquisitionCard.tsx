@@ -82,7 +82,7 @@ export function DataAcquisitionCard({
   return (
     <Card>
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <CardTitle className="text-lg">田间观测数据</CardTitle>
             <CardDescription>输入当前田间实测数据以生成灌溉决策</CardDescription>
@@ -132,7 +132,7 @@ export function DataAcquisitionCard({
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {fieldConfigs.map(({ key, unit, placeholder }) => (
             <div className="space-y-2" key={key}>
               <Label htmlFor={`field-${key}`}>
